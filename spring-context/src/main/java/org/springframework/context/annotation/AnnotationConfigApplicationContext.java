@@ -53,16 +53,27 @@ import org.springframework.util.Assert;
  */
 public class AnnotationConfigApplicationContext extends GenericApplicationContext implements AnnotationConfigRegistry {
 
+	/**
+	 * 这个类顾名思义是一个reader，一个读取器
+	 * 读取一个被加载了注解的bean
+	 * 这个类在构造方法中实例化
+	 */
 	private final AnnotatedBeanDefinitionReader reader;
 
+	/**
+	 * 这是一个扫描器，扫描所有加了注解的bean
+	 * 同样是在构造方法中被实例化的
+	 */
 	private final ClassPathBeanDefinitionScanner scanner;
 
 
-	/**
+	/** 初始化一个bean的读取和扫描器
+	 *
 	 * Create a new AnnotationConfigApplicationContext that needs to be populated
 	 * through {@link #register} calls and then manually {@linkplain #refresh refreshed}.
 	 */
 	public AnnotationConfigApplicationContext() {
+		// 创建一个读取注解的Bean定义读取器
 		this.reader = new AnnotatedBeanDefinitionReader(this);
 		this.scanner = new ClassPathBeanDefinitionScanner(this);
 	}
@@ -78,12 +89,18 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	}
 
 	/**
+	 *
+	 * 这个构造方法需要传入一个javaconfig注解的配置类，
+	 * 	 *  然后会把这个注解了javaconfig的类通过注解读取后继而解析
 	 * Create a new AnnotationConfigApplicationContext, deriving bean definitions
 	 * from the given component classes and automatically refreshing the context.
 	 * @param componentClasses one or more component classes &mdash; for example,
 	 * {@link Configuration @Configuration} classes
+	 *
 	 */
 	public AnnotationConfigApplicationContext(Class<?>... componentClasses) {
+		// 这里由于他有父类,先调用父类的构造方法
+		// 在自己构造方法中开始一个读取器和扫描器
 		this();
 		register(componentClasses);
 		refresh();
@@ -146,6 +163,13 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	//---------------------------------------------------------------------
 
 	/**
+	 * 注册单个bean给容器
+	 * 比如有新的类加入可以用这个方法
+	 * 但是注册之后需要手动调用register方法去触发容器解析注解
+	 *
+	 * 1、可以注册一个配置类
+	 * 2、也可以单独注册一个bean
+	 *
 	 * Register one or more component classes to be processed.
 	 * <p>Note that {@link #refresh()} must be called in order for the context
 	 * to fully process the new classes.
