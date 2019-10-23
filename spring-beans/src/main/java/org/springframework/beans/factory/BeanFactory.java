@@ -112,10 +112,15 @@ import org.springframework.lang.Nullable;
  * @see org.springframework.beans.factory.config.BeanPostProcessor#postProcessAfterInitialization
  * @see DisposableBean#destroy
  * @see org.springframework.beans.factory.support.RootBeanDefinition#getDestroyMethodName
+ *
+ * BeanFactory是一个工厂的顶级接口
  */
 public interface BeanFactory {
 
 	/**
+	 *  如果一个Bean实现了FactoryBean,那个通过Bean的名字直接获取到的Bean是FactoryBean.getObject()
+	 *  返回的Bean,如果想要获得到这个FactoryBean本身,需要通过 "& + 名字获取"
+	 *
 	 * Used to dereference a {@link FactoryBean} instance and distinguish it from
 	 * beans <i>created</i> by the FactoryBean. For example, if the bean named
 	 * {@code myJndiObject} is a FactoryBean, getting {@code &myJndiObject}
