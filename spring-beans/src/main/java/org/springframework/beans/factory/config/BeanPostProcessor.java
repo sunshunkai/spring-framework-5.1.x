@@ -39,6 +39,19 @@ import org.springframework.lang.Nullable;
  * @see DestructionAwareBeanPostProcessor
  * @see ConfigurableBeanFactory#addBeanPostProcessor
  * @see BeanFactoryPostProcessor
+ *
+ * BeanPostProcessor是Spring扩展类点
+ * 通过实现BeanPostProcessor接口，就可以干预bean实例化过程
+ * 1、ApplicationContextAwareProcessor
+ * 2、InitDestoryAnnotationBeanPostProcessor
+ * 		用来处理自定义的初始化和销毁方法
+ * 		通过@Bean注解init-method和destory-method
+ * 		Bean实现了InitializingBean接口和实现DisposableBean
+ *      @PostConstract	 @PreDestory
+ * 3、
+ * 4、
+ *
+ *
  */
 public interface BeanPostProcessor {
 
@@ -54,6 +67,8 @@ public interface BeanPostProcessor {
 	 * if {@code null}, no subsequent BeanPostProcessors will be invoked
 	 * @throws org.springframework.beans.BeansException in case of errors
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet
+	 *
+	 * 在初始化之前执行
 	 */
 	@Nullable
 	default Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
@@ -80,6 +95,8 @@ public interface BeanPostProcessor {
 	 * @throws org.springframework.beans.BeansException in case of errors
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet
 	 * @see org.springframework.beans.factory.FactoryBean
+	 *
+	 * 在初始化之后执行
 	 */
 	@Nullable
 	default Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
