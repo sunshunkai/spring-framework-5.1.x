@@ -30,6 +30,8 @@ import java.util.Set;
  * @see StandardAnnotationMetadata
  * @see org.springframework.core.type.classreading.MetadataReader#getAnnotationMetadata()
  * @see AnnotatedTypeMetadata
+ *
+ * 该接口判断是否存在指定元注解
  */
 public interface AnnotationMetadata extends ClassMetadata, AnnotatedTypeMetadata {
 

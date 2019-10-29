@@ -44,6 +44,8 @@ import org.springframework.core.type.AnnotationMetadata;
  * @see Import
  * @see ImportBeanDefinitionRegistrar
  * @see Configuration
+ *
+ * 　ImportSelector接口是至spring中导入外部配置的核心接口
  */
 public interface ImportSelector {
 
