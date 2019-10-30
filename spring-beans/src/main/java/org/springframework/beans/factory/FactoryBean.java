@@ -55,6 +55,8 @@ import org.springframework.lang.Nullable;
  * @see org.springframework.beans.factory.BeanFactory
  * @see org.springframework.aop.framework.ProxyFactoryBean
  * @see org.springframework.jndi.JndiObjectFactoryBean
+ *
+ * FactoryBean是一个特殊的Bean
  */
 public interface FactoryBean<T> {
 
@@ -74,6 +76,9 @@ public interface FactoryBean<T> {
 	 * @return an instance of the bean (can be {@code null})
 	 * @throws Exception in case of creation errors
 	 * @see FactoryBeanNotInitializedException
+	 *
+	 * 在bean容器中,直接通过bean名字获取到的是这个方法返回的bean,
+	 * 如果想要获得这个bean本身,需要在bean名字上加 '$'
 	 */
 	@Nullable
 	T getObject() throws Exception;
@@ -96,6 +101,8 @@ public interface FactoryBean<T> {
 	 * @return the type of object that this FactoryBean creates,
 	 * or {@code null} if not known at the time of the call
 	 * @see ListableBeanFactory#getBeansOfType
+	 *
+	 * 返回此FactoryBean创建的对象类型
 	 */
 	@Nullable
 	Class<?> getObjectType();
