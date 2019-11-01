@@ -1,7 +1,12 @@
 package com.ssk;
 
+import com.ssk.anno.Appconfig;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 public class MySpring {
 	public static void main(String[] args) {
-		//AnnotationConfigApplicatontext
+		ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Appconfig.class);
+
 	}
 }
