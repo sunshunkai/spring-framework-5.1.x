@@ -41,6 +41,8 @@ import org.springframework.lang.Nullable;
  * @author Rob Harrop
  * @author Juergen Hoeller
  * @since 2.0
+ *
+ * XML读取上下文,获得解析XML的相关组件
  */
 public class XmlReaderContext extends ReaderContext {
 

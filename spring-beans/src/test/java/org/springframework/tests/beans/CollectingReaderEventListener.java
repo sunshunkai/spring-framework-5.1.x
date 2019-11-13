@@ -40,6 +40,7 @@ public class CollectingReaderEventListener implements ReaderEventListener {
 
 	private final Map<String, ComponentDefinition> componentDefinitions = new LinkedHashMap<>(8);
 
+	/** 这个key是beanName,一个AliasDefinition表示一个别名 */
 	private final Map<String, List<AliasDefinition>> aliasMap = new LinkedHashMap<>(8);
 
 	private final List<ImportDefinition> imports = new LinkedList<>();
