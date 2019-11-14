@@ -21,6 +21,8 @@ import java.util.LinkedList;
 import org.springframework.lang.Nullable;
 
 /**
+ * 这个类是对LinkedList的封装
+ *
  * Simple {@link LinkedList}-based structure for tracking the logical position during
  * a parsing process. {@link Entry entries} are added to the LinkedList at
  * each point during the parse phase in a reader-specific manner.

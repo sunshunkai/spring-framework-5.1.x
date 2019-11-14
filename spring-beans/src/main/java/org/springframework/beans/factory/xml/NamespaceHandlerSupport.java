@@ -106,6 +106,8 @@ public abstract class NamespaceHandlerSupport implements NamespaceHandler {
 	 * Locates the {@link BeanDefinitionParser} from the register implementations using
 	 * the local name of the supplied {@link Node}. Supports both {@link Element Elements}
 	 * and {@link Attr Attrs}.
+	 *
+	 * 从本地Map中获得 BeanDefinitionDecorator
 	 */
 	@Nullable
 	private BeanDefinitionDecorator findDecoratorForNode(Node node, ParserContext parserContext) {
