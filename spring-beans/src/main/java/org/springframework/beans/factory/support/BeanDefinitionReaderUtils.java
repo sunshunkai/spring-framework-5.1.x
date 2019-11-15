@@ -152,6 +152,8 @@ public abstract class BeanDefinitionReaderUtils {
 	}
 
 	/**
+	 * 将解析的BeanDefinitionHold注册到Spring IOC 容器中
+	 *
 	 * Register the given bean definition with the given bean factory.
 	 * @param definitionHolder the bean definition including name and aliases
 	 * @param registry the bean factory to register with
@@ -163,10 +165,11 @@ public abstract class BeanDefinitionReaderUtils {
 
 		// Register bean definition under primary name.
 		String beanName = definitionHolder.getBeanName();
+		// 将 BeanDefinition 放到 IOC 容器中
 		registry.registerBeanDefinition(beanName, definitionHolder.getBeanDefinition());
 
 		// Register aliases for bean name, if any.
-		// 注册Bean的别名
+		// 注册Bean的别名 到 Map中
 		String[] aliases = definitionHolder.getAliases();
 		if (aliases != null) {
 			for (String alias : aliases) {

@@ -94,8 +94,10 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 
 	private String resourcePattern = DEFAULT_RESOURCE_PATTERN;
 
+	/** 主要保存 @Component、@Repository、@Service、@Controller、@ManagedBean 和 @Named注解 */
 	private final List<TypeFilter> includeFilters = new LinkedList<>();
 
+	/** 需要过滤的注解 */
 	private final List<TypeFilter> excludeFilters = new LinkedList<>();
 
 	@Nullable
@@ -201,10 +203,13 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 	 * <p>Also supports Java EE 6's {@link javax.annotation.ManagedBean} and
 	 * JSR-330's {@link javax.inject.Named} annotations, if available.
 	 *
+	 * 向容器注册过滤规则
 	 */
 	@SuppressWarnings("unchecked")
 	protected void registerDefaultFilters() {
+		// 包含@Controller、@Service、@Repository
 		this.includeFilters.add(new AnnotationTypeFilter(Component.class));
+		// 获取当前的类加载器
 		ClassLoader cl = ClassPathScanningCandidateComponentProvider.class.getClassLoader();
 		try {
 			this.includeFilters.add(new AnnotationTypeFilter(
@@ -304,11 +309,14 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 
 
 	/**
+	 * 扫描给定类路径的包
+	 *
 	 * Scan the class path for candidate components.
 	 * @param basePackage the package to check for annotated classes
 	 * @return a corresponding Set of autodetected bean definitions
 	 */
 	public Set<BeanDefinition> findCandidateComponents(String basePackage) {
+		//TODO 如果有需要排除扫描的注解
 		if (this.componentsIndex != null && indexSupportsIncludeFilters()) {
 			return addCandidateComponentsFromIndex(this.componentsIndex, basePackage);
 		}
@@ -371,6 +379,7 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 	}
 
 	private Set<BeanDefinition> addCandidateComponentsFromIndex(CandidateComponentsIndex index, String basePackage) {
+		// 创建存储扫描的类的集合
 		Set<BeanDefinition> candidates = new LinkedHashSet<>();
 		try {
 			Set<String> types = new HashSet<>();
@@ -384,8 +393,11 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 			boolean traceEnabled = logger.isTraceEnabled();
 			boolean debugEnabled = logger.isDebugEnabled();
 			for (String type : types) {
+				// 为指定资源获取数据读取器，元数据读取器通过汇编（ ASM ）读取资源 元信息
 				MetadataReader metadataReader = getMetadataReaderFactory().getMetadataReader(type);
+				// 过滤掉需要排除扫描的注解,也就是指扫描 includeFilters 中的注解
 				if (isCandidateComponent(metadataReader)) {
+					// 通过汇编(ASM)读取资源字节码中bean定义的元信息
 					AnnotatedGenericBeanDefinition sbd = new AnnotatedGenericBeanDefinition(
 							metadataReader.getAnnotationMetadata());
 					if (isCandidateComponent(sbd)) {
@@ -416,8 +428,11 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 	private Set<BeanDefinition> scanCandidateComponents(String basePackage) {
 		Set<BeanDefinition> candidates = new LinkedHashSet<>();
 		try {
+			// classpath*:com.ssk/**/*.class
+			// 作为包的搜索路径
 			String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX +
 					resolveBasePackage(basePackage) + '/' + this.resourcePattern;
+			// 这里返回的是该包下所有.class 文件
 			Resource[] resources = getResourcePatternResolver().getResources(packageSearchPath);
 			boolean traceEnabled = logger.isTraceEnabled();
 			boolean debugEnabled = logger.isDebugEnabled();
@@ -476,6 +491,8 @@ public class ClassPathScanningCandidateComponentProvider implements EnvironmentC
 	 * and converts a "."-based package path to a "/"-based resource path.
 	 * @param basePackage the base package as specified by the user
 	 * @return the pattern specification to be used for package searching
+	 *
+	 *
 	 */
 	protected String resolveBasePackage(String basePackage) {
 		return ClassUtils.convertClassNameToResourcePath(getEnvironment().resolveRequiredPlaceholders(basePackage));

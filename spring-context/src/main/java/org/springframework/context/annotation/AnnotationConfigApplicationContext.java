@@ -131,6 +131,8 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	}
 
 	/**
+	 * 为容器的注解Beans读取器和注解Bean扫描器设置Bean名称产生器
+	 *
 	 * Provide a custom {@link BeanNameGenerator} for use with {@link AnnotatedBeanDefinitionReader}
 	 * and/or {@link ClassPathBeanDefinitionScanner}, if any.
 	 * <p>Default is {@link org.springframework.context.annotation.AnnotationBeanNameGenerator}.
@@ -147,6 +149,8 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	}
 
 	/**
+	 * 设置作用范围元信息解析器
+	 *
 	 * Set the {@link ScopeMetadataResolver} to use for registered component classes.
 	 * <p>The default is an {@link AnnotationScopeMetadataResolver}.
 	 * <p>Any call to this method must occur prior to calls to {@link #register(Class...)}
@@ -166,6 +170,7 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * 注册单个bean给容器
 	 * 比如有新的类加入可以用这个方法
 	 * 但是注册之后需要手动调用register方法去触发容器解析注解
+	 * 需要手动调用 refresh() 方法
 	 *
 	 * 1、可以注册一个配置类
 	 * 2、也可以单独注册一个bean

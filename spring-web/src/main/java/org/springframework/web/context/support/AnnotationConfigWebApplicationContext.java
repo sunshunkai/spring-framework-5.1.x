@@ -193,19 +193,23 @@ public class AnnotationConfigWebApplicationContext extends AbstractRefreshableWe
 	 * @see #setConfigLocations(String[])
 	 * @see AnnotatedBeanDefinitionReader
 	 * @see ClassPathBeanDefinitionScanner
+	 *
+	 * 载入注解Bean定义资源
 	 */
 	@Override
 	protected void loadBeanDefinitions(DefaultListableBeanFactory beanFactory) {
+		// 获得Bean定义读取器
 		AnnotatedBeanDefinitionReader reader = getAnnotatedBeanDefinitionReader(beanFactory);
+		// 扫描器
 		ClassPathBeanDefinitionScanner scanner = getClassPathBeanDefinitionScanner(beanFactory);
-
+		// Bean生成器
 		BeanNameGenerator beanNameGenerator = getBeanNameGenerator();
 		if (beanNameGenerator != null) {
 			reader.setBeanNameGenerator(beanNameGenerator);
 			scanner.setBeanNameGenerator(beanNameGenerator);
 			beanFactory.registerSingleton(AnnotationConfigUtils.CONFIGURATION_BEAN_NAME_GENERATOR, beanNameGenerator);
 		}
-
+		// 获取容器的作用域元信息解析器
 		ScopeMetadataResolver scopeMetadataResolver = getScopeMetadataResolver();
 		if (scopeMetadataResolver != null) {
 			reader.setScopeMetadataResolver(scopeMetadataResolver);
@@ -227,11 +231,12 @@ public class AnnotationConfigWebApplicationContext extends AbstractRefreshableWe
 			}
 			scanner.scan(StringUtils.toStringArray(this.basePackages));
 		}
-
+		// 获取容器定义的Bean定义资源路径
 		String[] configLocations = getConfigLocations();
 		if (configLocations != null) {
 			for (String configLocation : configLocations) {
 				try {
+					// 获得class文件
 					Class<?> clazz = ClassUtils.forName(configLocation, getClassLoader());
 					if (logger.isTraceEnabled()) {
 						logger.trace("Registering [" + configLocation + "]");
@@ -243,6 +248,7 @@ public class AnnotationConfigWebApplicationContext extends AbstractRefreshableWe
 						logger.trace("Could not load class for config location [" + configLocation +
 								"] - trying package scan. " + ex);
 					}
+					// 如果注册失败,则扫描子包
 					int count = scanner.scan(configLocation);
 					if (count == 0 && logger.isDebugEnabled()) {
 						logger.debug("No component classes found for specified class/package [" + configLocation + "]");
