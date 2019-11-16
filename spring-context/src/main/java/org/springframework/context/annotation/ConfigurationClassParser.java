@@ -298,6 +298,24 @@ class ConfigurationClassParser {
 			}
 		}
 
+		/**
+		 * 上面的代码技术扫描普通leukemia---@Component，并且放到map当中
+		 */
+
+		/**
+		 *  这里处理的import是需要判断我们的类当中有@Import注解，
+		 *  如果有这把@Import当中的值拿出来，是一个类
+		 *  比如@Import(xxx.class)，那么这里便把xxx传进来解析
+		 *  在解析的过程中如果发觉是一个importSelector那么就会调selector方法
+		 *  返回一个字符串（类名），通过这个字符串得到一个类
+		 *  续而在递归调用本地方法出来这个类
+		 *
+		 *  selector返回的那个类，严格意义上来讲不符合@Import(xxx.class),因为这个类没有直接import
+		 *  如果不符合，那不会调用这个方法getImports(sourceClass)就是得到所有的import的类
+		 *  但是注意的是递归当中是没有getImports(sourceClassde ),意思是直接把selector当中返回的类直接当成一个import的类去解析
+		 *  总之一句话，@Import(xxx.class)，那么xxx这个类会被解析
+		 *  如果xxx是selector的那么他当中返回的类虽然没有直接加上@Import，但是也会直接解析
+		 */
 		// Process any @Import annotations
 		processImports(configClass, sourceClass, getImports(sourceClass), true);
 
@@ -563,6 +581,7 @@ class ConfigurationClassParser {
 							this.deferredImportSelectorHandler.handle(configClass, (DeferredImportSelector) selector);
 						}
 						else {
+							// 如果解析的类中又含有@ImportSelector，则递归调用
 							String[] importClassNames = selector.selectImports(currentSourceClass.getMetadata());
 							Collection<SourceClass> importSourceClasses = asSourceClasses(importClassNames);
 							processImports(configClass, currentSourceClass, importSourceClasses, false);
