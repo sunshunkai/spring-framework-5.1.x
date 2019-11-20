@@ -39,6 +39,8 @@ package org.springframework.core;
  * @see OrderComparator
  * @see org.springframework.core.annotation.Order
  * @see org.springframework.core.annotation.AnnotationAwareOrderComparator
+ *
+ * 排序,实例化bean顺序
  */
 public interface Ordered {
 
