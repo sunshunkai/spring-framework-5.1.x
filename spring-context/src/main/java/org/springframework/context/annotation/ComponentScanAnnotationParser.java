@@ -129,6 +129,7 @@ class ComponentScanAnnotationParser {
 				return declaringClass.equals(className);
 			}
 		});
+		// 开始扫描子包了
 		return scanner.doScan(StringUtils.toStringArray(basePackages));
 	}
 
