@@ -129,11 +129,6 @@ class ComponentScanAnnotationParser {
 				return declaringClass.equals(className);
 			}
 		});
-<<<<<<< HEAD
-
-=======
-		// 开始扫描子包了
->>>>>>> local
 		return scanner.doScan(StringUtils.toStringArray(basePackages));
 	}
 
