@@ -58,6 +58,7 @@ public abstract class ScopedProxyUtils {
 
 		String originalBeanName = definition.getBeanName();
 		BeanDefinition targetDefinition = definition.getBeanDefinition();
+		// 获取代理对象的名字
 		String targetBeanName = getTargetBeanName(originalBeanName);
 
 		// Create a scoped proxy definition for the original bean name,
@@ -101,6 +102,7 @@ public abstract class ScopedProxyUtils {
 	 * @param originalBeanName the original name of bean
 	 * @return the generated bean to be used to reference the target bean
 	 * @see #getOriginalBeanName(String)
+	 * 返回代理对象的名字
 	 */
 	public static String getTargetBeanName(String originalBeanName) {
 		return TARGET_NAME_PREFIX + originalBeanName;

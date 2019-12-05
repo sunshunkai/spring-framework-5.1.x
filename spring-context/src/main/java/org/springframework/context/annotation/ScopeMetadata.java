@@ -36,6 +36,7 @@ public class ScopeMetadata {
 
 	private String scopeName = BeanDefinition.SCOPE_SINGLETON;
 
+	// 设置代理方式,默认不使用代理
 	private ScopedProxyMode scopedProxyMode = ScopedProxyMode.NO;
 
 

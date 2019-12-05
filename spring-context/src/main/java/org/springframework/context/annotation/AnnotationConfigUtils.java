@@ -280,7 +280,7 @@ public abstract class AnnotationConfigUtils {
 		if (scopedProxyMode.equals(ScopedProxyMode.NO)) {
 			return definition;
 		}
-		// proxyMode 的属性值为 TARGET_CLASS ,返回true, INTERFACES  返回false
+		// proxyMode 的属性值为 TARGET_CLASS（CGLib代理） ,返回true, INTERFACES  返回false
 		boolean proxyTargetClass = scopedProxyMode.equals(ScopedProxyMode.TARGET_CLASS);
 		// 创建代理对象
 		return ScopedProxyCreator.createScopedProxy(definition, registry, proxyTargetClass);

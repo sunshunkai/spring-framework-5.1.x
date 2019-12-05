@@ -26,6 +26,8 @@ package org.springframework.context.annotation;
  * @author Mark Fisher
  * @since 2.5
  * @see ScopeMetadata
+ *
+ * 代理方式
  */
 public enum ScopedProxyMode {
 
