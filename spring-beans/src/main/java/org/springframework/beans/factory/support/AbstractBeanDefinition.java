@@ -219,6 +219,9 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	private MethodOverrides methodOverrides = new MethodOverrides();
 
+	/**
+	 * init 方法
+	 */
 	@Nullable
 	private String initMethodName;
 

@@ -1823,6 +1823,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 		else {
 			// 为 Bean 创建对象包装相关属性,如名称 类加载器 所属容器等
+			// BeanNameAware,BeanClassLoaderAware,BeanFactoryAware
 			invokeAwareMethods(beanName, bean);
 		}
 
@@ -1833,7 +1834,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		// 调用 Bean 实例化初始化方法,这个初始化方法是在Spring Bean
-		// 定义配置文件中通过 init-Method 属性指定的
+		// 定义配置文件中通过 InitializingBean 或者 init-Method 属性指定的
 		try {
 			invokeInitMethods(beanName, wrappedBean, mbd);
 		}
@@ -1878,10 +1879,20 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * (can also be {@code null}, if given an existing bean instance)
 	 * @throws Throwable if thrown by init methods or by the invocation process
 	 * @see #invokeCustomInitMethod
+	 *
+	 * 执行bean的init方法，一个bean要执行init方法由一下几个方法：
+	 * 1、bean实现InitializingBean接口，重写afterPropertiesSet
+	 * 2、bean配置了init-method
+	 *
+	 * InitializingBean的执行顺序在前，init-method执行方法在后
+	 *
+	 * PostConstruct和PostConstruct注解是在InitDestroyAnnotationBeanPostProcessor执行的
+	 * @see org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor
+	 *
 	 */
 	protected void invokeInitMethods(String beanName, final Object bean, @Nullable RootBeanDefinition mbd)
 			throws Throwable {
-
+		// bean 继承 InitializingBean，会执行afterPropertiesSet 方法(init)
 		boolean isInitializingBean = (bean instanceof InitializingBean);
 		if (isInitializingBean && (mbd == null || !mbd.isExternallyManagedInitMethod("afterPropertiesSet"))) {
 			if (logger.isTraceEnabled()) {
@@ -1899,15 +1910,18 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				}
 			}
 			else {
+				// 执行 afterPropertiesSet（init）
 				((InitializingBean) bean).afterPropertiesSet();
 			}
 		}
 
+		// 判断bean是否 指定了 init-method()
 		if (mbd != null && bean.getClass() != NullBean.class) {
 			String initMethodName = mbd.getInitMethodName();
 			if (StringUtils.hasLength(initMethodName) &&
 					!(isInitializingBean && "afterPropertiesSet".equals(initMethodName)) &&
 					!mbd.isExternallyManagedInitMethod(initMethodName)) {
+				// 调用Bean的init方法(如果存在)
 				invokeCustomInitMethod(beanName, bean, mbd);
 			}
 		}
@@ -1966,6 +1980,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		else {
 			try {
 				ReflectionUtils.makeAccessible(methodToInvoke);
+				// JDK 反射执行bean的init方法
 				methodToInvoke.invoke(bean);
 			}
 			catch (InvocationTargetException ex) {
