@@ -264,7 +264,7 @@ public class AnnotatedBeanDefinitionReader {
 		 * BeanDefinitionHolder也是一个数据结构
 		 */
 		BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(abd, beanName);
-
+		// 设置一个代理模式
 		definitionHolder = AnnotationConfigUtils.applyScopedProxyMode(scopeMetadata, definitionHolder, this.registry);
 		// 注册进容器
 		BeanDefinitionReaderUtils.registerBeanDefinition(definitionHolder, this.registry);
