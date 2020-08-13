@@ -126,8 +126,10 @@ abstract class ConfigurationClassUtils {
 		}
 
 		// It's a full or lite configuration candidate... Let's determine the order value, if any.
+		// 活动 bean 上的order注解的值
 		Integer order = getOrder(metadata);
 		if (order != null) {
+			// 设置 order 属性
 			beanDef.setAttribute(ORDER_ATTRIBUTE, order);
 		}
 
@@ -171,6 +173,7 @@ abstract class ConfigurationClassUtils {
 		}
 
 		// Any of the typical annotations found?
+		// 看下這個集合裡面包含哪些註解
 		for (String indicator : candidateIndicators) {
 			if (metadata.isAnnotated(indicator)) {
 				return true;
