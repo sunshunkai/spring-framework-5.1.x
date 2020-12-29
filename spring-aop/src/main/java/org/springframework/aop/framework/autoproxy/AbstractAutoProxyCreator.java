@@ -132,7 +132,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	private BeanFactory beanFactory;
 
 	private final Set<String> targetSourcedBeans = Collections.newSetFromMap(new ConcurrentHashMap<>(16));
-
+	// 已经被代理的bean
 	private final Map<Object, Object> earlyProxyReferences = new ConcurrentHashMap<>(16);
 
 	private final Map<Object, Class<?>> proxyTypes = new ConcurrentHashMap<>(16);
