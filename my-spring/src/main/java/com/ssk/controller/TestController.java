@@ -7,11 +7,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 
 import com.ssk.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 
 
@@ -25,6 +23,11 @@ public class TestController implements ApplicationContextAware {
 
 	public TestController(){
 		System.out.println("test");
+	}
+
+	public String hello(){
+		System.out.println("hello");
+		return "hello";
 	}
 
 	@Override

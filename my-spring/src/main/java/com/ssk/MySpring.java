@@ -7,7 +7,12 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class MySpring {
 	public static void main(String[] args) {
+
 		ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Appconfig.class);
 		TestController bean = applicationContext.getBean(TestController.class);
+
+		bean.hello();
+
+
 	}
 }
