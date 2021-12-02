@@ -10,10 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class LogHandler {
 
-	public LogHandler(){
-		System.out.println("======");
-	}
-
 	@Pointcut("within(com.ssk.controller..*)")
 	public void logPrint() {}
 
@@ -34,6 +30,10 @@ public class LogHandler {
 		}
 		while(numAttempts <= 3);
 		throw lockFailureException;
+	}
+
+	public LogHandler(){
+		System.out.println("======");
 	}
 
 }

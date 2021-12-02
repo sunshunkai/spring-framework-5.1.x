@@ -136,7 +136,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	private final Map<Object, Object> earlyProxyReferences = new ConcurrentHashMap<>(16);
 
 	private final Map<Object, Class<?>> proxyTypes = new ConcurrentHashMap<>(16);
-
+	/** 标识一个Bean是否需要代理  */
 	private final Map<Object, Boolean> advisedBeans = new ConcurrentHashMap<>(256);
 
 
@@ -475,7 +475,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		if (advisorsPreFiltered()) {
 			proxyFactory.setPreFiltered(true);
 		}
-
+		// 返回的是Cglib或者JDK代理的对象
 		return proxyFactory.getProxy(getProxyClassLoader());
 	}
 

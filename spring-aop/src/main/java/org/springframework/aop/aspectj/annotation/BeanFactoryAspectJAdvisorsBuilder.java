@@ -46,7 +46,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 
 	@Nullable
 	private volatile List<String> aspectBeanNames;
-
+	/** key:beanName */
 	private final Map<String, List<Advisor>> advisorsCache = new ConcurrentHashMap<>();
 
 	private final Map<String, MetadataAwareAspectInstanceFactory> aspectFactoryCache = new ConcurrentHashMap<>();
@@ -101,6 +101,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 						if (beanType == null) {
 							continue;
 						}
+						// 判斷Bean上是否有@Aspect
 						if (this.advisorFactory.isAspect(beanType)) {
 							aspectNames.add(beanName);
 							AspectMetadata amd = new AspectMetadata(beanType, beanName);
