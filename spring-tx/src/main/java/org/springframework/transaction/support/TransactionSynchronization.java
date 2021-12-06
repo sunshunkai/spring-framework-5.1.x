@@ -37,13 +37,13 @@ import java.io.Flushable;
  */
 public interface TransactionSynchronization extends Flushable {
 
-	/** Completion status in case of proper commit. */
+	/** Completion status in case of proper commit. 事务已提交 */
 	int STATUS_COMMITTED = 0;
 
-	/** Completion status in case of proper rollback. */
+	/** Completion status in case of proper rollback. 事务已回滚 */
 	int STATUS_ROLLED_BACK = 1;
 
-	/** Completion status in case of heuristic mixed completion or system errors. */
+	/** Completion status in case of heuristic mixed completion or system errors. 状态未知 */
 	int STATUS_UNKNOWN = 2;
 
 
@@ -51,6 +51,8 @@ public interface TransactionSynchronization extends Flushable {
 	 * Suspend this synchronization.
 	 * Supposed to unbind resources from TransactionSynchronizationManager if managing any.
 	 * @see TransactionSynchronizationManager#unbindResource
+	 *
+	 * 事务被挂起时回调
 	 */
 	default void suspend() {
 	}
@@ -59,6 +61,8 @@ public interface TransactionSynchronization extends Flushable {
 	 * Resume this synchronization.
 	 * Supposed to rebind resources to TransactionSynchronizationManager if managing any.
 	 * @see TransactionSynchronizationManager#bindResource
+	 *
+	 * 事务恢复时间
 	 */
 	default void resume() {
 	}
@@ -85,6 +89,8 @@ public interface TransactionSynchronization extends Flushable {
 	 * @throws RuntimeException in case of errors; will be <b>propagated to the caller</b>
 	 * (note: do not throw TransactionException subclasses here!)
 	 * @see #beforeCompletion
+	 *
+	 * 事务提交前回调
 	 */
 	default void beforeCommit(boolean readOnly) {
 	}
@@ -99,6 +105,8 @@ public interface TransactionSynchronization extends Flushable {
 	 * (note: do not throw TransactionException subclasses here!)
 	 * @see #beforeCommit
 	 * @see #afterCompletion
+	 *
+	 * 事务完成前回调，也就是在事务管理器 commit/rollback 之前
 	 */
 	default void beforeCompletion() {
 	}
@@ -117,6 +125,8 @@ public interface TransactionSynchronization extends Flushable {
 	 * transactional operation that is called from here.</b>
 	 * @throws RuntimeException in case of errors; will be <b>propagated to the caller</b>
 	 * (note: do not throw TransactionException subclasses here!)
+	 *
+	 * 事务成功提交后回调
 	 */
 	default void afterCommit() {
 	}
@@ -138,6 +148,8 @@ public interface TransactionSynchronization extends Flushable {
 	 * @see #STATUS_ROLLED_BACK
 	 * @see #STATUS_UNKNOWN
 	 * @see #beforeCompletion
+	 *
+	 * 事务完成后回调，status揭示了事务当前状态
 	 */
 	default void afterCompletion(int status) {
 	}

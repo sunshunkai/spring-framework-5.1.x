@@ -36,6 +36,9 @@ public interface TransactionAttribute extends TransactionDefinition {
 	 * Return a qualifier value associated with this transaction attribute.
 	 * <p>This may be used for choosing a corresponding transaction manager
 	 * to process this specific transaction.
+	 *
+	 * 事务隔离级别
+	 *
 	 * @since 3.0
 	 */
 	@Nullable

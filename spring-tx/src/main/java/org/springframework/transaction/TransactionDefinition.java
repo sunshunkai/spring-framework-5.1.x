@@ -50,6 +50,8 @@ public interface TransactionDefinition {
 	 * Analogous to the EJB transaction attribute of the same name.
 	 * <p>This is typically the default setting of a transaction definition,
 	 * and typically defines a transaction synchronization scope.
+	 *
+	 * 表示方法必须运行在事务中，如果当前事务存在，方法将会在该事务中运行，否则将开启一个新的独立事务
 	 */
 	int PROPAGATION_REQUIRED = 0;
 
@@ -71,6 +73,8 @@ public interface TransactionDefinition {
 	 * "synchronization on actual transaction").
 	 * @see org.springframework.transaction.support.AbstractPlatformTransactionManager#setTransactionSynchronization
 	 * @see org.springframework.transaction.support.AbstractPlatformTransactionManager#SYNCHRONIZATION_ON_ACTUAL_TRANSACTION
+	 *
+	 * 表示方法支持在事务中运行，如果当前事务存在，方法将会在该事务中运行，否则以非事务方式运行
 	 */
 	int PROPAGATION_SUPPORTS = 1;
 
@@ -79,6 +83,8 @@ public interface TransactionDefinition {
 	 * exists. Analogous to the EJB transaction attribute of the same name.
 	 * <p>Note that transaction synchronization within a {@code PROPAGATION_MANDATORY}
 	 * scope will always be driven by the surrounding transaction.
+	 *
+	 * 表示方法必须运行在事务中，如果当前事务不存在，抛出异常
 	 */
 	int PROPAGATION_MANDATORY = 2;
 
@@ -94,6 +100,8 @@ public interface TransactionDefinition {
 	 * transaction synchronizations. Existing synchronizations will be suspended
 	 * and resumed appropriately.
 	 * @see org.springframework.transaction.jta.JtaTransactionManager#setTransactionManager
+	 *
+	 * 表示方法必须运行在独立事务中，无论当前是否存在事务，该级别总会开启一个新的独立事务
 	 */
 	int PROPAGATION_REQUIRES_NEW = 3;
 
@@ -109,6 +117,8 @@ public interface TransactionDefinition {
 	 * {@code PROPAGATION_NOT_SUPPORTED} scope. Existing synchronizations
 	 * will be suspended and resumed appropriately.
 	 * @see org.springframework.transaction.jta.JtaTransactionManager#setTransactionManager
+	 *
+	 * 表示方法不支持在事务中运行，如果当前事务存在，挂起当前事务从而以非事务方式运行
 	 */
 	int PROPAGATION_NOT_SUPPORTED = 4;
 
@@ -117,6 +127,8 @@ public interface TransactionDefinition {
 	 * exists. Analogous to the EJB transaction attribute of the same name.
 	 * <p>Note that transaction synchronization is <i>not</i> available within a
 	 * {@code PROPAGATION_NEVER} scope.
+	 *
+	 * 表示方法不支持在事务中运行，如果当前事务存在，抛出异常
 	 */
 	int PROPAGATION_NEVER = 5;
 
@@ -130,6 +142,8 @@ public interface TransactionDefinition {
 	 * when working on a JDBC 3.0 driver. Some JTA providers might support
 	 * nested transactions as well.
 	 * @see org.springframework.jdbc.datasource.DataSourceTransactionManager
+	 *
+	 * 表示方法必须运行在事务中，如果当前事务存在，开启一个嵌套事务（Savepoint），否则等同于PROPAGATION_REQUIRED
 	 */
 	int PROPAGATION_NESTED = 6;
 
